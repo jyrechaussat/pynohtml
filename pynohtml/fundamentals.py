@@ -57,11 +57,13 @@ class Element(object):
 		self.processCss()
 		return self.base_html.format(X = self)
 
+
 class SimplestElement(Element):
 	def __init__(self, tag, **kwargs):
 		super().__init__(**kwargs)
 		self.tag = tag
 		self.base_html = "<{X.tag} {X.css}>"
+
 
 class Container(list, Element):
 	def __init__(self, elements=[], tag = "div", sep = "\n", **kwargs):
@@ -94,12 +96,6 @@ class Container(list, Element):
 		self.base_html += "{X.sep}</{X.tag}>"
 		return self.base_html.format(X = self)
 
-class Theme(object):
-	def __init__(self, links=[], scripts = [], attr_mapping={}):
-		self.links = links
-		self.scripts = scripts
-		self.attr_mapping = {}
-
 
 class Import(Element):
 	inHead = True
@@ -124,34 +120,3 @@ class Import(Element):
 			return self.data == other
 		return False
 
-class HeadLink(Import):
-	isLink = True
-	def __init__(self, link, rel="stylesheet", **kwargs):
-		super().__init__(link, tag="link", rel=rel, href=link, **kwargs)
-
-class Script(Import):
-	isLink = True
-	def __init__(self, src):
-		super().__init__("", tag="script", sep="", src=src)
-
-class BodyScript(Import):
-	inHead = False
-	def __init__(self, script):
-		super().__init__(script, tag="script")
-
-class Javascript(Import):
-	inHead = False
-	def __init__(self, script):
-		super().__init__(script, tag="script", type="text/javascript")
-
-class Style(Import):
-	def __init__(self, style):
-		super().__init__(style, tag="style")
-
-class CSSStyle(Import):
-	def __init__(self, style):
-		super().__init__(style, tag="style", type="text/css")
-
-class Base(Import):
-	def __init__(self, src, target="_blank", **kwargs):
-		super().__init__("", tag="base", href=src, target=target, **kwargs)

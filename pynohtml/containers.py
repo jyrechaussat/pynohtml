@@ -1,13 +1,15 @@
-from kitchen.cockery import (
-Element,
-SimplestElement,
-Container,
-Style,
-CSSStyle,
-Script,
-Javascript)
+from .fundamentals import (
+    Element,
+    SimplestElement,
+    Container,
+)
 
-from kitchen.cockery import debugprint
+from .imports import (
+    Style,
+    CSSStyle,
+    Script,
+    Javascript
+)
 
 
 class Map(Container):
