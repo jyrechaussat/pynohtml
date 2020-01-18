@@ -1,5 +1,5 @@
 
-from kitchen.cockery import (
+from .fundamentals import (
 	SimplestElement,
 	Container,
 )
@@ -424,13 +424,13 @@ class Map(Container):
 
 class Form(Container):
     def __init__(self, elements=[], action="", method="GET", sep="\n", **kwargs):
-		    super().__init__(tag="form", elements=elements, action=action, method=method, sep=sep, **kwargs)
+            super().__init__(tag="form", elements=elements, action=action, method=method, sep=sep, **kwargs)
 
 
 class Link(Container):
     def __init__(self, link, name, value="", **kwargs):
-		    super().__init__(tag = "a", elements=name, href=link, sep="", **kwargs )
-		    self.separator = ""
+        super().__init__(tag = "a", elements=name, href=link, sep="", **kwargs )
+        self.separator = ""
 
 
 class ListElement(Container):
@@ -439,36 +439,36 @@ class ListElement(Container):
 
 
 class List(Container):
-  def __init__(self, l_values, ordered=False, **kwargs):
-      if ordered:
-          tag = "ol"
-      else:
-          tag = "ul"
-      super().__init__(l_values, tag=tag, **kwargs)
+    def __init__(self, l_values, ordered=False, **kwargs):
+        if ordered:
+            tag = "ol"
+        else:
+            tag = "ul"
+        super().__init__(l_values, tag=tag, **kwargs)
 
-  def processSelfList(self, l_values):
-      for val in l_values:
-          self.append(ListElement(val))
+    def processSelfList(self, l_values):
+        for val in l_values:
+            self.append(ListElement(val))
 
 
 class DescList(Container):
-  def __init__(self, values, **kwargs):
-      if type(values) != dict and any([(isinstance(v, DescName) or isinstance(v, DescTerm)) for v in values]):
-          raise ValueError("DescList values argument should be of dict type where keys are DescName and values are DescTerm. \nOtherWise it should be a list of DescName/DescTerm objects")
-      super().__init__(l_values, tag="dl", **kwargs)
+    def __init__(self, values, **kwargs):
+        if type(values) != dict and any([(isinstance(v, DescName) or isinstance(v, DescTerm)) for v in values]):
+            raise ValueError("DescList values argument should be of dict type where keys are DescName and values are DescTerm. \nOtherWise it should be a list of DescName/DescTerm objects")
+        super().__init__(l_values, tag="dl", **kwargs)
 
-  def processSelfList(self, l_values):
-      if type(l_values) == dict:
-          for key, values in l_values.items():
-              self.append(DescTerm(key))
-              if type(values) == list:
-                  for val in values:
-                      self.append(DescName(val))
-              else:
-                  self.append(DescName(val)) 
+    def processSelfList(self, l_values):
+        if type(l_values) == dict:
+            for key, values in l_values.items():
+                self.append(DescTerm(key))
+                if type(values) == list:
+                    for val in values:
+                        self.append(DescName(val))
+                else:
+                    self.append(DescName(val)) 
 
-     elif type(l_values) == list:
-          self.extend(l_values)
+        elif type(l_values) == list:
+            self.extend(l_values)
 
 
 class TableLineElement(Container):
@@ -552,20 +552,20 @@ class Table(Container):
 
 
 class Header(Container):
-  def __init__(self, content, size=3, **kwargs):
-    if int(size) > 6:
-        size = 6
-    elif int(size) < 1:
-        size = 1
-    self.size = size
-    super().__init__(content, tag="h{}".format(size), **kwargs)
+    def __init__(self, content, size=3, **kwargs):
+        if int(size) > 6:
+            size = 6
+        elif int(size) < 1:
+            size = 1
+        self.size = size
+        super().__init__(content, tag="h{}".format(size), **kwargs)
 
 
 class ClassicIcon(Icon):
-  def __init__(self, font, **kwargs):
-    icon_fonts = {
-      "google":HeadLink("https://fonts.googleapis.com/icon?family=Material+Icons"),
-      "cloudfare":HeadLink("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
-      "bootstrap":HeadLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
-    }
-    super().__init__(imports=icon_fonts[font], **kwargs)
+    def __init__(self, font, **kwargs):
+        icon_fonts = {
+            "google":HeadLink("https://fonts.googleapis.com/icon?family=Material+Icons"),
+            "cloudfare":HeadLink("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
+            "bootstrap":HeadLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+        }
+        super().__init__(imports=icon_fonts[font], **kwargs)

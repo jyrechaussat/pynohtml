@@ -4,7 +4,7 @@ from optparse import OptionParser
 from collections import namedtuple
 
 imports_str = """
-from kitchen.cockery import (
+from .fundamentals import (
 	SimplestElement,
 	Container,
 )\n\n"""

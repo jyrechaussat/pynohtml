@@ -1,14 +1,10 @@
-from kitchen.cockery import (
+from .fundamentals import (
 Element,
 Container,
-HeadLink,
-Style,
-CSSStyle,
-Script,
-Javascript)
-from kitchen.containers import Link 
+)
+from .containers import Link 
 
-from kitchen.cockery import debugprint
+# from .fundamentals import debugprint
 
 class SideNav(Container):
     def __init__(self, links=[]):

@@ -1,4 +1,4 @@
-from kitchen.cockery import (
+from .fundamentals import (
 	Element,
 	Container
 )

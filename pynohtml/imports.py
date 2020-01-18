@@ -1,4 +1,29 @@
-from fundamentals import Import
+from .fundamentals import (
+    Element
+)
+
+class Import(Element):
+	inHead = True
+	isLink = False
+	def __init__(self, data, tag="script", sep="\n", **kwargs):
+		super().__init__(**kwargs)
+		self.data = data
+		self.tag = tag
+		self.sep = sep
+		if self.isLink:
+			self.base_html = "<{X.tag} {X.css}>{X.sep}</{X.tag}>"
+		else:
+			self.base_html = "<{X.tag} {X.css}>{{DATA}}</{X.tag}>{X.sep}"
+
+	def __hash__(self):
+		return hash(self.data)
+
+	def __eq__(self, other):
+		if isinstance(other, Import):
+			return self.data == other.data
+		elif type(other) == str:
+			return self.data == other
+		return False
 
 
 class HeadLink(Import):

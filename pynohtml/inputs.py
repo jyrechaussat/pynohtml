@@ -1,4 +1,4 @@
-from kitchen.cockery import(
+from .fundamentals import(
 Element,
 Container
 )
@@ -29,7 +29,7 @@ class ResetInput(Input):
 
 class RadioInput(Input):
 	def __init__(self, name, value, checked = False, **kwargs):
-		super().__init__(name=name, value=valye, type="radio", checked=checked)
+		super().__init__(name=name, value=value, type="radio", checked=checked)
 
 class CheckBox(Input):
 	def __init__(self, name, value, checked = False, **kwargs):
@@ -50,7 +50,7 @@ class TextArea(Element):
 		self.value = value
 
 class Option(Container):
-	def __init__(self, label, **kwargs):
+	def __init__(self, label="", **kwargs):
 		super().__init__(label, tag="option", sep="", **kwargs)
 
 class OptGroup(Container):
@@ -76,9 +76,6 @@ class SelectInput(Container):
 			for opt in options:
 				self.append(opt if type(opt) in [Option, OptGroup] else Option(opt))
 
-class Option(SimplestElement):
-    def __init__(self, **kwargs):
-        super().__init__("option", **kwargs)
 
 class DataList(Container):
     def __init__(self, values=[], **kwargs):
