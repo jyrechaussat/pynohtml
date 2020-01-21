@@ -152,4 +152,4 @@ class ClassicIcon(Icon):
             "cloudfare":HeadLink("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
             "bootstrap":HeadLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
         }
-        super().__init__(imports=icon_fonts[font], **kwargs)
+        super().__init__(includes=icon_fonts[font], **kwargs)
