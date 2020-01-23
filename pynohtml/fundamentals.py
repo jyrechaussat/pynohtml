@@ -74,6 +74,7 @@ class Container(list, Element):
         if type(elements) not in [list, dict]:
             elements = [elements]
         self.processSelfList(elements)
+        self.make()
         self.tag = tag
         self.sep = sep
 
@@ -87,6 +88,9 @@ class Container(list, Element):
 
     def processSelfList(self, l_values):
         self.extend(l_values)
+
+    def make(self):
+        pass
 
     def postProcess(self):
         return self.sep.join([str(element) for element in list(self)])
