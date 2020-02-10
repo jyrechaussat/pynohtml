@@ -54,6 +54,9 @@ class Element(object):
     def postProcess(self):
         pass
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
         self.postProcess()
         self.processCss()
@@ -94,6 +97,9 @@ class Container(list, Element):
 
     def postProcess(self):
         return self.sep.join([str(element) for element in list(self)])
+
+    def __repr__(self):
+        return str(self)
 
     def __str__(self):
         self.processCss()
