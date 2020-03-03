@@ -46,7 +46,7 @@ class Element(object):
         self.includes.append(Style(style, **kwargs))
 
     def addBodyScript(self, src):
-        self.includes.append(BodyScript(src=src))
+        self.includes.append(BodyScript(src))
 
     def getIncludes(self):
         return self.includes
@@ -109,6 +109,11 @@ class Container(list, Element):
         return self.base_html.format(X=self)
 
 
+class PynohtmlContainer(Container):
+    def __init__(self, id="main"):
+        super().__init__(id="main")
+
+
 class Include(Element):
     inHead = True
     isLink = False
@@ -151,7 +156,7 @@ class Script(Include):
 class BodyScript(Include):
     inHead = False
 
-    def __init__(self, script="", **kwargs):
+    def __init__(self, script, **kwargs):
         super().__init__(script, tag="script", **kwargs)
 
 
