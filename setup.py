@@ -11,14 +11,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pynohtml", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="grimnar",
     author_email="grimnar@gmail.com",
     description="framework to generate html/css/js",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/grimnar/pynohtml",
-    packages=["pynohtml"],
+    packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -26,4 +26,5 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     test_suite="setup.pynohtml_test_suite",    
+    include_package_data=True,
 )

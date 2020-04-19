@@ -1,3 +1,5 @@
+import os
+
 def debugprint(data):
     print("#" * 40)
     print(data)
@@ -30,23 +32,45 @@ class Element(object):
                 else:
                     self.css += '{K}="{V}"'.format(K=key, V=value)
 
-    def addScript(self, imp, **kwargs):
+    def addScript(self, fromString="", fromFile="", **kwargs):
+        imp = fromString
+        if fromFile:
+            imp = self.__getFilePath(fromFile, "scripts")
+
         self.includes.append(Script(imp, **kwargs))
 
     def addHLink(self, link, **kwargs):
         self.includes.append(HeadLink(link, **kwargs))
 
-    def addJs(self, js, **kwargs):
-        self.includes.append(Javascript(js, **kwargs))
+    def addJs(self, fromString="", fromFile="", **kwargs):
+        imp = fromString
+        if fromFile:
+            imp = self.__getFilePath(fromFile, "js")
+        self.includes.append(Javascript(imp, **kwargs))
 
-    def addCSS(self, css, **kwargs):
-        self.includes.append(CSSStyle(css, **kwargs))
+    def addCSS(self, fromString="", fromFile="", **kwargs):
+        imp = fromString
+        if fromFile:
+            imp = self.__getFilePath(fromFile, "css")
+
+        self.includes.append(CSSStyle(imp, **kwargs))
 
     def addStyle(self, style, **kwargs):
         self.includes.append(Style(style, **kwargs))
 
     def addBodyScript(self, src):
         self.includes.append(BodyScript(src))
+
+    def __getFilePath(self, fromFile, directory):
+        filePath = fromFile
+        if not os.path.isfile(fromFile):
+            filePath = __file__
+            for path in ["..", "static", directory, fromFile]:
+                filePath = os.path.join(filePath, path)
+
+        if not os.path.isfile(filePath):
+            raise ValueError("No file found for {PATH} or in {APATH}".format(PATH=fromFile, APATH=filePath))
+        return open(filePath).read()
 
     def getIncludes(self):
         return self.includes
@@ -157,7 +181,7 @@ class BodyScript(Include):
     inHead = False
 
     def __init__(self, script, **kwargs):
-        super().__init__(script, tag="script", **kwargs)
+        super().__init__("", src=script, tag="script", **kwargs)
 
 
 class Javascript(Include):
