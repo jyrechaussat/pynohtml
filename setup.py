@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pynohtml", # Replace with your own username
-    version="0.0.2",
+    version="0.0.21",
     author="grimnar",
     author_email="grimnar@gmail.com",
     description="framework to generate html/css/js",

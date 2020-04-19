@@ -575,3 +575,15 @@ class ClassicIcon(Icon):
             "bootstrap":HeadLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
         }
         super().__init__(includes=icon_fonts[font], **kwargs)
+
+
+class Accordion(Container):
+    def __init__(self, title, content, **kwargs):
+        super().__init__( [title, content],  tag="div", **kwargs)
+        self.addCSS(fromFile="accordion.css")
+        self.addJs(fromFile="accordion.js")
+
+    def processSelfList(self, l_values):
+        title, content = l_values
+        self.append(Button(title, klass="accordion"))
+        self.append(Div(content, klass="panel"))
