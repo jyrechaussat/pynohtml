@@ -64,8 +64,8 @@ class Element(object):
     def __getFilePath(self, fromFile, directory):
         filePath = fromFile
         if not os.path.isfile(fromFile):
-            filePath = __file__
-            for path in ["..", "static", directory, fromFile]:
+            filePath = os.path.dirname(__file__)
+            for path in ["static", directory, fromFile]:
                 filePath = os.path.join(filePath, path)
 
         if not os.path.isfile(filePath):

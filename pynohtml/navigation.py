@@ -8,10 +8,14 @@ from .containers import Link
 
 
 class SideNav(Container):
-    def __init__(self, links=[]):
-        super().__init__(elements=links, klass="sidenav", id="PyNoHtmlSideNav")
+    def __init__(self, links=[], fixed=True):
+        if fixed:
+            width = 150
+        else:
+            width = 0
+            self.addJs(fromFile="sidenav.js")
+        super().__init__(elements=links, klass="sidenav", id="PyNoHtmlSideNav", width=width)
         self.addCSS(fromFile="sidenav.css")
-        self.addJs(fromFile="sidenav.js")
 
     def processSelfList(self, l_values):
         self.append(Link("javascript:void(0)",
