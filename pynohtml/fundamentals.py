@@ -122,8 +122,8 @@ class Container(list, Element):
     def postProcess(self):
         return self.sep.join([str(element) for element in list(self)])
 
-    def __repr__(self):
-        return str(self)
+    def __clean__(self):
+        self.clear()
 
     def __str__(self):
         self.processCss()

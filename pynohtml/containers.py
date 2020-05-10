@@ -67,358 +67,358 @@ class WordBreak(SimplestElement):
 
 
 class Abbreviation(Container):
-    def __init__(self, abbrev=[], **kwargs):
-        super().__init__(elements=abbrev, tag="abbr", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="abbr", sep="",  **kwargs)
 
 
 class Acronym(Container):
-    def __init__(self, acronym=[], **kwargs):
-        super().__init__(elements=acronym, tag="acronym", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="acronym", sep="",  **kwargs)
 
 
 class Address(Container):
-    def __init__(self, address_elmnts=[], **kwargs):
-        super().__init__(elements=address_elmnts, tag="address", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="address", **kwargs)
 
 
 class Article(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="article", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="article", **kwargs)
 
 
 class AsideText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="aside", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="aside", sep="",  **kwargs)
 
 
 class Audio(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="audio", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="audio", **kwargs)
 
 
 class BoldText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="b", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="b", sep="",  **kwargs)
 
 
 class BdiText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="bdi", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="bdi", sep="",  **kwargs)
 
 
 class BdoText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="bdo", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="bdo", sep="",  **kwargs)
 
 
 class BlockQuote(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="blockquote", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="blockquote", **kwargs)
 
 
 class Button(Container):
-    def __init__(self, label=[], **kwargs):
-        super().__init__(elements=label, tag="button", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="button", **kwargs)
 
 
 class Caption(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="caption", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="caption", sep="",  **kwargs)
 
 
 class ColGroup(Container):
-    def __init__(self, cols=[], **kwargs):
-        super().__init__(elements=cols, tag="colgroup", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="colgroup", **kwargs)
 
 
 class CiteText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="cite", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="cite", sep="",  **kwargs)
 
 
 class CodeText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="code", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="code", sep="",  **kwargs)
 
 
 class DataText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="data", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="data", sep="",  **kwargs)
 
 
 class DeletedText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="del", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="del", sep="",  **kwargs)
 
 
 class Details(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="details", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="details", **kwargs)
 
 
 class DefinitionText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="dfn", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="dfn", sep="",  **kwargs)
 
 
 class DescName(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="dd", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="dd", sep="",  **kwargs)
 
 
 class DescTerm(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="dt", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="dt", sep="",  **kwargs)
 
 
 class Div(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="div", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="div", **kwargs)
 
 
 class Canvas(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="canvas", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="canvas", sep="",  **kwargs)
 
 
 class EmText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="em", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="em", sep="",  **kwargs)
 
 
 class Form(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="form", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="form", **kwargs)
 
 
 class Fieldset(Container):
-    def __init__(self, fields=[], **kwargs):
-        super().__init__(elements=fields, tag="fieldset", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="fieldset", **kwargs)
 
 
 class Figure(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="figure", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="figure", **kwargs)
 
 
 class Figcaption(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="figcaption", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="figcaption", **kwargs)
 
 
 class PageFooter(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="footer", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="footer", **kwargs)
 
 
 class PageHeader(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="header", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="header", **kwargs)
 
 
 class ItalicText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="i", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="i", sep="",  **kwargs)
 
 
 class Icon(Container):
-    def __init__(self, label=[], **kwargs):
-        super().__init__(elements=label, tag="i", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="i", **kwargs)
 
 
 class InsertedText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="ins", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="ins", sep="",  **kwargs)
 
 
 class IFrame(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="iframe", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="iframe", **kwargs)
 
 
 class Label(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="label", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="label", sep="",  **kwargs)
 
 
 class LegendText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="legend", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="legend", sep="",  **kwargs)
 
 
 class MainContent(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="main", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="main", **kwargs)
 
 
 class Mark(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="mark", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="mark", sep="",  **kwargs)
 
 
 class Meter(Container):
-    def __init__(self, range=[], **kwargs):
-        super().__init__(elements=range, tag="meter", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="meter", sep="",  **kwargs)
 
 
 class Nav(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="nav", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="nav", **kwargs)
 
 
 class NoFrames(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="noframes", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="noframes", sep="",  **kwargs)
 
 
 class NoScript(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="noscript", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="noscript", sep="",  **kwargs)
 
 
 class Paragraph(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="p", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="p", sep="",  **kwargs)
 
 
 class Object(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="object", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="object", sep="",  **kwargs)
 
 
 class Picture(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="picture", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="picture", sep="",  **kwargs)
 
 
 class PreformatedText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="pre", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="pre", sep="",  **kwargs)
 
 
 class Progress(Container):
-    def __init__(self, elments=[], **kwargs):
-        super().__init__(elements=elments, tag="progress", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="progress", sep="",  **kwargs)
 
 
 class Quote(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="q", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="q", sep="",  **kwargs)
 
 
 class RubyParentheses(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="rp", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="rp", sep="",  **kwargs)
 
 
 class RubyText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="rt", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="rt", sep="",  **kwargs)
 
 
 class Ruby(Container):
-    def __init__(self, elemnts=[], **kwargs):
-        super().__init__(elements=elemnts, tag="ruby", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="ruby", sep="",  **kwargs)
 
 
 class SuppressedText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="s", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="s", sep="",  **kwargs)
 
 
 class Sample(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="samp", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="samp", sep="",  **kwargs)
 
 
 class Section(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="section", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="section", **kwargs)
 
 
 class SmallText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="small", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="small", sep="",  **kwargs)
 
 
 class SpanText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="span", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="span", sep="",  **kwargs)
 
 
 class RubyText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="rt", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="rt", sep="",  **kwargs)
 
 
 class SpanText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="span", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="span", sep="",  **kwargs)
 
 
 class StrongText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="strong", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="strong", sep="",  **kwargs)
 
 
 class SubscriptText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="sub", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="sub", sep="",  **kwargs)
 
 
 class Summary(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="summary", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="summary", sep="",  **kwargs)
 
 
 class SuperscriptText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="sup", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="sup", sep="",  **kwargs)
 
 
 class SvgGraphic(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="svg", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="svg", **kwargs)
 
 
 class SuperscriptText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="sup", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="sup", sep="",  **kwargs)
 
 
 class Template(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="template", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="template", **kwargs)
 
 
 class TextArea(Container):
-    def __init__(self, initialText=[], **kwargs):
-        super().__init__(elements=initialText, tag="textarea", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="textarea", **kwargs)
 
 
 class Time(Container):
-    def __init__(self, datetime=[], **kwargs):
-        super().__init__(elements=datetime, tag="time", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="time", sep="",  **kwargs)
 
 
 class Title(Container):
-    def __init__(self, title=[], **kwargs):
-        super().__init__(elements=title, tag="title", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="title", sep="",  **kwargs)
 
 
 class Time(Container):
-    def __init__(self, datetime=[], **kwargs):
-        super().__init__(elements=datetime, tag="time", sep="",  **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="time", sep="",  **kwargs)
 
 
 class Video(Container):
-    def __init__(self, elmnts=[], **kwargs):
-        super().__init__(elements=elmnts, tag="video", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="video", **kwargs)
 
 
 class VarText(Container):
-    def __init__(self, text=[], **kwargs):
-        super().__init__(elements=text, tag="var", **kwargs)
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="var", **kwargs)
 
 
 class Map(Container):

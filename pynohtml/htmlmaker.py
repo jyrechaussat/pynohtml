@@ -2,6 +2,15 @@ from .fundamentals import (
     Element,
 )
 
+from .containers import (
+    Div,
+    SpanText
+)
+
+from .navigation import (
+    SideNav
+)
+
 
 class Importations(set):
     def __init__(self, firstAdd):
@@ -63,9 +72,45 @@ class HtmlMaker(list, Element):
                 else:
                     imports_def[type(imp)].append(imp)
 
-        self.head_imports = "\n".join([str(I) for k,I in imports_def.items() if I.inHead])
-        self.body_imports = "\n".join([str(I) for k,I in imports_def.items() if not I.inHead])
+        self.head_imports = "\n".join([str(I) for k, I in imports_def.items() if I.inHead])
+        self.body_imports = "\n".join([str(I) for k, I in imports_def.items() if not I.inHead])
 
     def processBody(self):
         self.processStylesAndScripts()
         return self.sep.join([str(element) for element in list(self)])
+
+
+class PynohtmlPage:
+    def __init__(self):
+        self.htmlmaker = HtmlMaker("")
+        self.page = Div(id="main")
+
+    def clear(self):
+        self.page.clear()
+
+    def append(self, element):
+        self.page.append(element)
+
+    def generate(self):
+        result = str(self.maker)
+        self.clear()
+        return result
+
+
+class SideNavPage(PynohtmlPage):
+    def __init__(self, title, links, toggle="", fixed=False):
+        self.maker = HtmlMaker(title)
+        sideNav = SideNav(links, fixed=fixed)
+        self.maker.addCSS(fromFile="sidenav.css")
+        self.maker.append(sideNav)
+        if not toggle:
+            toggle = SpanText("&#9776; {TITLE}".format(TITLE=title),
+                              id="openclosebutton",
+                              onclick="openNav()",
+                              style="font-size:30px;cursor:pointer")
+
+        self.all = Div(id="main")
+        self.all.append(toggle)
+        self.page = Div(id="dynamic")
+        self.all.append(self.page)
+        self.maker.append(self.all)

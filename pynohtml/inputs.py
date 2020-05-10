@@ -29,11 +29,11 @@ class ResetInput(Input):
 
 class RadioInput(Input):
 	def __init__(self, name, value, checked = False, **kwargs):
-		super().__init__(name=name, value=value, type="radio", checked=checked)
+		super().__init__(name=name, value=value, type="radio", checked=checked, **kwargs)
 
 class CheckBox(Input):
 	def __init__(self, name, value, checked = False, **kwargs):
-		super().__init__(name=name, value=value, type="checkbox", checked=checked)
+		super().__init__(name=name, value=value, type="checkbox", checked=checked, **kwargs)
 
 class DateInput(Input):
 	def __init(self, name, min="", max="", **kwargs):
