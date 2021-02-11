@@ -7,8 +7,6 @@ clean:
 
 .PHONY:build
 build:
-	python ./container_gen/container_generator.py -f ./pynohtml/containers.py;
-	cat ./container_gen/spe_containers.py >> ./pynohtml/containers.py;
 	python setup.py sdist --formats=tar
 
 .PHONY:install
