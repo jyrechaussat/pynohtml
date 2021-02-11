@@ -1,206 +1,164 @@
-import os
+class ImportsLibrary:
+    class __ImportsLibrary(set):
+        def addImports(self, imports):
+            for imp in imports:
+                if not isinstance(imp, Import):
+                    raise ValueError("Can't add other than Import type into ImportLibrary")
+                self.add(imp)
 
-def debugprint(data):
-    print("#" * 40)
-    print(data)
-    print("#" * 40)
+    instance = None
+
+    def __init__(self):
+        if not ImportsLibrary.instance:
+            ImportsLibrary.instance = ImportsLibrary.__ImportsLibrary()
+
+    def __len__(self):
+        return len(ImportsLibrary.instance)
+
+    def append(self, imports):
+        if type(imports) == list:
+            raise ValueError("type list not accepted for append method, please use extend")
+        ImportsLibrary.instance.addImports([imports])
+
+    def extend(self, imports):
+        if type(imports) not in (set, list):
+            raise ValueError("type other than list or set not accepted for extend method, please use append")
+        ImportsLibrary.instance.addImports(imports)
+
+    def clear(self):
+        ImportsLibrary.instance.clear()
+
+    @property
+    def importsInHead(self):
+        return [imp for imp in ImportsLibrary.instance if imp.inHead]
+
+    @property
+    def importsInBody(self):
+        return [imp for imp in ImportsLibrary.instance if not imp.inHead]
 
 
-class Element(object):
-    def __init__(self, klass="", includes=[], **kwargs):
-        self.base_html = ""
+class Element:
+    def __init__(self, klass="", **kwargs):
+        self.imports = ImportsLibrary()
         self.css_dict = kwargs
-        self.css = ""
-        if type(includes) != list:
-            self.includes = [includes]
-        else:
-            self.includes = includes
-        self.klass = klass
+        if klass:
+            self.css_dict["class"] = klass
 
     def processCss(self):
-        self.css = ""
-        if self.klass:
-            self.css += " "
-            if self.klass:
-                self.css += 'class="{KLASS}"'.format(KLASS=self.klass)
+        css = ""
+        for key, value in self.css_dict.items():
+            if type(value) == bool:
+                if value:
+                    css += f" {key}"
+            else:
+                css += f' {key}="{value}"'
+        return css
 
-        if self.css_dict:
-            for key, value in self.css_dict.items():
-                self.css += " "
-                if type(value) == bool:
-                    self.css += key
-                else:
-                    self.css += '{K}="{V}"'.format(K=key, V=value)
-
-    def addScript(self, fromString="", fromFile="", **kwargs):
-        imp = fromString
-        if fromFile:
-            imp = self.__getFilePath(fromFile, "scripts")
-
-        self.includes.append(Script(imp, **kwargs))
-
-    def addHLink(self, link, **kwargs):
-        self.includes.append(HeadLink(link, **kwargs))
-
-    def addJs(self, fromString="", fromFile="", **kwargs):
-        imp = fromString
-        if fromFile:
-            imp = self.__getFilePath(fromFile, "js")
-        self.includes.append(Javascript(imp, **kwargs))
-
-    def addCSS(self, fromString="", fromFile="", **kwargs):
-        imp = fromString
-        if fromFile:
-            imp = self.__getFilePath(fromFile, "css")
-
-        self.includes.append(CSSStyle(imp, **kwargs))
-
-    def addStyle(self, style, **kwargs):
-        self.includes.append(Style(style, **kwargs))
-
-    def addBodyScript(self, src):
-        self.includes.append(BodyScript(src))
-
-    def __getFilePath(self, fromFile, directory):
-        filePath = fromFile
-        if not os.path.isfile(fromFile):
-            filePath = os.path.dirname(__file__)
-            for path in ["static", directory, fromFile]:
-                filePath = os.path.join(filePath, path)
-
-        if not os.path.isfile(filePath):
-            raise ValueError("No file found for {PATH} or in {APATH}".format(PATH=fromFile, APATH=filePath))
-        return open(filePath).read()
-
-    def getIncludes(self):
-        return self.includes
-
-    def postProcess(self):
-        pass
-
-    def __repr__(self):
-        return str(self)
-
-    def __str__(self):
-        self.postProcess()
-        self.processCss()
-        return self.base_html.format(X=self)
+    @property
+    def html(self):
+        return "<element{self.css}>"
 
 
-class SimplestElement(Element):
+class SimpleElement(Element):
     def __init__(self, tag, **kwargs):
         super().__init__(**kwargs)
         self.tag = tag
-        self.base_html = "<{X.tag}{X.css}>"
+
+    @property
+    def html(self):
+        css = self.processCss()
+        return f"<{self.tag}{css}>"
 
 
 class Container(list, Element):
     def __init__(self, elements=[], tag="div", sep="\n", **kwargs):
-        list.__init__(self, [])
+        if type(elements) == list:
+            list.__init__(self, elements)
+        else:
+            list.__init__(self, [elements])
         Element.__init__(self, **kwargs)
-        if type(elements) not in [list, dict]:
-            elements = [elements]
-        self.processSelfList(elements)
-        self.make()
         self.tag = tag
         self.sep = sep
-
-    def getIncludes(self):
-        result = []
-        for element in list(self):
-            if isinstance(element, Element):
-                result.extend(element.getIncludes())
-        result.extend(self.includes)
-        return result
-
-    def processSelfList(self, l_values):
-        self.extend(l_values)
 
     def make(self):
-        pass
+        return self
 
-    def postProcess(self):
-        return self.sep.join([str(element) for element in list(self)])
+    def processElemets(self):
+        elmts = self.make()
+        result = ""
+        if elmts:
+            result += self.sep
+            for elmt in elmts:
+                if isinstance(elmt, Element):
+                    result += elmt.html
+                else:
+                    result += str(elmt)
+                result += self.sep
+        return result
 
-    def __clean__(self):
-        self.clear()
-
-    def __str__(self):
-        self.processCss()
-        self.base_html = "<{X.tag} {X.css}>{X.sep}"
-        self.base_html += self.postProcess()
-        self.base_html += "{X.sep}</{X.tag}>"
-        return self.base_html.format(X=self)
+    @property
+    def html(self):
+        css = self.processCss()
+        data = self.processElemets()
+        return f"<{self.tag}{css}>" + data + f"</{self.tag}>"
 
 
-class PynohtmlContainer(Container):
-    def __init__(self, id="main"):
-        super().__init__(id="main")
-
-
-class Include(Element):
-    inHead = True
-    isLink = False
-
-    def __init__(self, data, tag="script", sep="\n", **kwargs):
+class Import(Element):
+    def __init__(self, data, inHead=True, isLink=False, tag="script", sep='\n', **kwargs):
         super().__init__(**kwargs)
         self.data = data
+        self.hashed_data = hash(data)
         self.tag = tag
         self.sep = sep
-        if self.isLink:
-            self.base_html = "<{X.tag} {X.css}>{X.sep}</{X.tag}>"
-        else:
-            self.base_html = "<{X.tag} {X.css}>{{DATA}}</{X.tag}>{X.sep}"
+        self.inHead = inHead
+        self.isLink = isLink
 
     def __hash__(self):
-        return hash(self.data)
+        return self.hashed_data
 
     def __eq__(self, other):
-        if isinstance(other, Include):
+        if isinstance(other, Import):
             return self.data == other.data
         elif type(other) == str:
             return self.data == other
         return False
 
+    @property
+    def html(self):
+        css = self.processCss()
+        if self.isLink:
+            result = f"<{self.tag}{css}>"
+        else:
+            result = f"<{self.tag}{css}>" + self.sep + self.data + self.sep + f"</{self.tag}>"
+        return result
 
-class HeadLink(Include):
-    isLink = True
 
+class HeadLink(Import):
     def __init__(self, link, rel="stylesheet", **kwargs):
-        super().__init__(link, tag="link", rel=rel, href=link, **kwargs)
+        super().__init__(link, tag="link", isLink=True, rel=rel, href=link, **kwargs)
 
 
-class Script(Include):
-    isLink = True
-
+class Script(Import):
     def __init__(self, src, **kwargs):
         super().__init__("", tag="script", sep="", src=src)
+        self.hashed_data = hash(src)
 
 
-class BodyScript(Include):
-    inHead = False
-
+class BodyScript(Import):
     def __init__(self, script, **kwargs):
-        super().__init__("", src=script, tag="script", **kwargs)
+        super().__init__(script, src=script, inHead=False, tag="script", **kwargs)
 
 
-class Javascript(Include):
-    inHead = False
-
+class Javascript(Import):
     def __init__(self, script, **kwargs):
-        super().__init__(script, tag="script", type="text/javascript", **kwargs)
+        super().__init__(script, tag="script", inHead=False, type="text/javascript", **kwargs)
 
 
-class Style(Include):
+class Style(Import):
     def __init__(self, style, **kwargs):
         super().__init__(style, tag="style", **kwargs)
 
 
-class CSSStyle(Include):
-    def __init__(self, style, **kwargs):
-        super().__init__(style, tag="style", type="text/css", **kwargs)
-
-
-class Base(Include):
+class Base(Import):
     def __init__(self, src, target="_blank", **kwargs):
-        super().__init__("", tag="base", href=src, target=target, **kwargs)
+        super().__init__(src, tag="base", href=src, target=target, isLink=True, **kwargs)

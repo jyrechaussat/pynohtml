@@ -80,6 +80,11 @@ class HtmlMaker(list, Element):
         return self.sep.join([str(element) for element in list(self)])
 
 
+class MailMaker(Container):
+    def __ini__(self, elements=[]):
+        super().__init__(elements, tag="html")
+
+
 class PynohtmlPage:
     def __init__(self):
         self.htmlmaker = HtmlMaker("")

@@ -1,67 +1,107 @@
-
-from .fundamentals import (
-    SimplestElement,
+from root import (
+    SimpleElement,
     Container,
+    ImportsLibrary,
     HeadLink
 )
 
 
-class Area(SimplestElement):
+class Head(Container):
+    def __init__(self, title, inputs=[], **kwargs):
+        self.title = title
+        super().__init__(elements=inputs, tag="head", **kwargs)
+
+    def make(self):
+        result = [Title(self.title)]
+        il = ImportsLibrary()
+        result.extend(il.importsInHead)
+        return result
+
+
+class Body(Container):
+    def __init__(self, body_elemts, **kwargs):
+        super().__init__(elements=body_elemts, tag="body", **kwargs)
+
+    def make(self):
+        result = [elmt for elmt in self]
+        il = ImportsLibrary()
+        result.extend(il.importsInBody)
+        return result
+
+
+class HtmlMaker(Container):
+    def __init__(self, title, main_containers, lang="en"):
+        self.title = title
+        self.body = main_containers
+        super().__init__(tag="html", lang=lang)
+
+    def make(self):
+        return [DocType(),
+                Head(self.title),
+                Body(self.body)]
+
+
+class Area(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("area", **kwargs)
 
 
-class Circle(SimplestElement):
+class Circle(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("circle", **kwargs)
 
 
-class Col(SimplestElement):
+class Col(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("col", **kwargs)
 
 
-class Frame(SimplestElement):
+class DocType(SimpleElement):
+    def __init__(self, **kwargs):
+        super().__init__("!doctype", html=True)
+
+
+class Frame(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("frame", **kwargs)
 
 
-class Image(SimplestElement):
+class Image(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("img", **kwargs)
 
 
-class LineBreak(SimplestElement):
+class LineBreak(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("br", **kwargs)
 
 
-class Meta(SimplestElement):
+class Meta(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("meta", **kwargs)
 
 
-class Param(SimplestElement):
+class Param(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("param", **kwargs)
 
 
-class Source(SimplestElement):
+class Source(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("source", **kwargs)
 
 
-class ThematicBreak(SimplestElement):
+class ThematicBreak(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("hr", **kwargs)
 
 
-class Track(SimplestElement):
+class Track(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("track", **kwargs)
 
 
-class WordBreak(SimplestElement):
+class WordBreak(SimpleElement):
     def __init__(self, **kwargs):
         super().__init__("wbr", **kwargs)
 
@@ -159,16 +199,6 @@ class Details(Container):
 class DefinitionText(Container):
     def __init__(self, inputs=[], **kwargs):
         super().__init__(elements=inputs, tag="dfn", sep="",  **kwargs)
-
-
-class DescName(Container):
-    def __init__(self, inputs=[], **kwargs):
-        super().__init__(elements=inputs, tag="dd", sep="",  **kwargs)
-
-
-class DescTerm(Container):
-    def __init__(self, inputs=[], **kwargs):
-        super().__init__(elements=inputs, tag="dt", sep="",  **kwargs)
 
 
 class Div(Container):
@@ -346,16 +376,6 @@ class SpanText(Container):
         super().__init__(elements=inputs, tag="span", sep="",  **kwargs)
 
 
-class RubyText(Container):
-    def __init__(self, inputs=[], **kwargs):
-        super().__init__(elements=inputs, tag="rt", sep="",  **kwargs)
-
-
-class SpanText(Container):
-    def __init__(self, inputs=[], **kwargs):
-        super().__init__(elements=inputs, tag="span", sep="",  **kwargs)
-
-
 class StrongText(Container):
     def __init__(self, inputs=[], **kwargs):
         super().__init__(elements=inputs, tag="strong", sep="",  **kwargs)
@@ -381,11 +401,6 @@ class SvgGraphic(Container):
         super().__init__(elements=inputs, tag="svg", **kwargs)
 
 
-class SuperscriptText(Container):
-    def __init__(self, inputs=[], **kwargs):
-        super().__init__(elements=inputs, tag="sup", sep="",  **kwargs)
-
-
 class Template(Container):
     def __init__(self, inputs=[], **kwargs):
         super().__init__(elements=inputs, tag="template", **kwargs)
@@ -402,13 +417,8 @@ class Time(Container):
 
 
 class Title(Container):
-    def __init__(self, inputs=[], **kwargs):
-        super().__init__(elements=inputs, tag="title", sep="",  **kwargs)
-
-
-class Time(Container):
-    def __init__(self, inputs=[], **kwargs):
-        super().__init__(elements=inputs, tag="time", sep="",  **kwargs)
+    def __init__(self, title, **kwargs):
+        super().__init__(elements=[title], tag="title", sep="",  **kwargs)
 
 
 class Video(Container):
@@ -436,45 +446,70 @@ class Form(Container):
 class Link(Container):
     def __init__(self, link, name, value="", **kwargs):
         super().__init__(tag = "a", elements=name, href=link, sep="", **kwargs )
-        self.separator = ""
+
+
+class Header(Container):
+    def __init__(self, content, size=3, **kwargs):
+        if int(size) > 6:
+            size = 6
+        elif int(size) < 1:
+            size = 1
+        self.size = size
+        super().__init__(content, tag="h{}".format(size), **kwargs)
 
 
 class ListElement(Container):
     def __init__(self, value, **kwargs):
-        super().__init__(value, tag="li", sep="", **kwargs)
+        super().__init__(elements=value, tag="li", sep="", **kwargs)
 
 
 class List(Container):
-    def __init__(self, l_values, ordered=False, **kwargs):
+    def __init__(self, values, ordered=False, **kwargs):
         if ordered:
             tag = "ol"
         else:
             tag = "ul"
-        super().__init__(l_values, tag=tag, **kwargs)
+        super().__init__(values, tag=tag, **kwargs)
 
-    def processSelfList(self, l_values):
-        for val in l_values:
-            self.append(ListElement(val))
+    def make(self):
+        return [elmt if isinstance(elmt, ListElement) else ListElement(elmt) for elmt in self]
+
+
+class DescName(Container):
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="dd", sep="",  **kwargs)
+
+
+class DescTerm(Container):
+    def __init__(self, inputs=[], **kwargs):
+        super().__init__(elements=inputs, tag="dt", sep="",  **kwargs)
 
 
 class DescList(Container):
     def __init__(self, values, **kwargs):
-        if type(values) != dict and any([(isinstance(v, DescName) or isinstance(v, DescTerm)) for v in values]):
+        if type(values) != dict \
+           and any([(isinstance(v, DescName) or isinstance(v, DescTerm)) for v in values]):
             raise ValueError("DescList values argument should be of dict type where keys are DescName and values are DescTerm. \nOtherWise it should be a list of DescName/DescTerm objects")
-        super().__init__(l_values, tag="dl", **kwargs)
+        self.values = values
+        super().__init__(tag="dl", **kwargs)
 
-    def processSelfList(self, l_values):
-        if type(l_values) == dict:
-            for key, values in l_values.items():
-                self.append(DescTerm(key))
+    def make(self):
+        result = []
+        if type(self.values) == dict:
+            for key, values in self.values.items():
+                result.append(DescTerm(key))
                 if type(values) == list:
                     for val in values:
-                        self.append(DescName(val))
+                        result.append(DescName(val))
                 else:
-                    self.append(DescName(val)) 
+                    result.append(DescName(val))
 
-        elif type(l_values) == list:
-            self.extend(l_values)
+        elif type(self.values) == list:
+            result.extend(self.values)
+        else:
+            raise ValueError("Do not understand the type of DescList Input")
+
+        return result
 
 
 class TableLineElement(Container):
@@ -491,32 +526,31 @@ class TableLine(Container):
         self.isHeader = isHeader
         super().__init__(values, tag=tag, **kwargs)
 
-    def processSelfList(self, l_values):
-        for val in l_values:
-            self.append(TableLineElement(val, isHeader=self.isHeader))
+    def make(self):
+        return [TableLineElement(elmt, isHeader=self.isHeader) for elmt in self]
 
 
 class TableBody(Container):
-    def __init__(self, l_values, tag="tbody", isHeader=False, **kwargs):
+    def __init__(self, values, tag="tbody", isHeader=False, **kwargs):
         self.isHeader = isHeader
-        super().__init__(l_values, tag=tag, **kwargs)
+        super().__init__(values, tag=tag, **kwargs)
 
-    def processSelfList(self, l_values):
-        self.append(TableLine(l_values, isHeader=self.isHeader))
+    def make(self):
+        return [TableLine([x for x in self], isHeader=self.isHeader)]
 
 
 class TableFooter(TableBody):
-    def __init__(self, l_values, isHeader=False, **kwargs):
-        super().__init__(l_values, tag="tfoot", isHeader=isHeader, **kwargs)
+    def __init__(self, values, isHeader=False, **kwargs):
+        super().__init__(values, tag="tfoot", isHeader=isHeader, **kwargs)
 
 
 class TableHeader(TableBody):
-    def __init__(self, l_values, isHeader=True, **kwargs):
-        super().__init__(l_values, tag="thead", isHeader=isHeader, **kwargs)
+    def __init__(self, values, isHeader=True, **kwargs):
+        super().__init__(values, tag="thead", isHeader=isHeader, **kwargs)
 
 
 class Table(Container):
-    def __init__(self, 
+    def __init__(self,
                  table,
                  header=[],
                  tfoot=[],
@@ -531,7 +565,7 @@ class Table(Container):
         self.colgroup = colgroup
         super().__init__(table, tag="table", **kwargs)
 
-    def processSelfList(self, l_values):
+    def make(self):
         if self.caption:
             self.append(Caption(self.caption))
 
@@ -544,27 +578,17 @@ class Table(Container):
         if self.header:
             self.append(TableLine(self.header, isHeader=True))
 
-        for val in l_values:
+        for val in self:
             self.appendRow(val)
 
         if self.tfoot:
             self.append(TableFooter(self.tfoot))
 
-    def appendRow(self, values, t_type=""):
+    def appendRow(self, values):
         if isinstance(values, TableLine) or isinstance(values, TableBody):
             self.append(values)
         else:
             self.append(TableLine(values))
-
-
-class Header(Container):
-    def __init__(self, content, size=3, **kwargs):
-        if int(size) > 6:
-            size = 6
-        elif int(size) < 1:
-            size = 1
-        self.size = size
-        super().__init__(content, tag="h{}".format(size), **kwargs)
 
 
 class ClassicIcon(Icon):
@@ -577,13 +601,3 @@ class ClassicIcon(Icon):
         super().__init__(includes=icon_fonts[font], **kwargs)
 
 
-class Accordion(Container):
-    def __init__(self, title, content, **kwargs):
-        super().__init__( [title, content],  tag="div", **kwargs)
-        self.addCSS(fromFile="accordion.css")
-        self.addJs(fromFile="accordion.js")
-
-    def processSelfList(self, l_values):
-        title, content = l_values
-        self.append(Button(title, klass="accordion"))
-        self.append(Div(content, klass="panel"))
