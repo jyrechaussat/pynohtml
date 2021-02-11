@@ -4,6 +4,7 @@ clean:
 	rm -rf build;
 	rm -rf *.egg-info;
 	find . -name *.pyc -delete
+	find . -name *__pycache__* -delete
 
 .PHONY:build
 build:
