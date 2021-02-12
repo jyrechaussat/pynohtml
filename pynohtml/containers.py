@@ -1,4 +1,5 @@
 from fundamentals import (
+    Element,
     SimpleElement,
     Container,
     ImportsLibrary,
@@ -659,4 +660,137 @@ for (i = 0; i < acc.length; i++) {
         for title, content in self.elements.items():
             result.append(Button(title, klass=self.buttonClass))
             result.append(Container(content, klass=self.divClass))
+        return result
+
+class TopNav(Container):
+    def __init__(self, links=[]):
+        super().__init__(links, klass="topnav", id="myTopnav")
+        self.imports.append(Style("""
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #424242;
+  overflow: hidden;
+}
+
+.topnav i {
+  float: left;
+}
+
+
+.topnav button {
+  float: left;
+  padding: 14px 16px;
+}
+
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}"
+"""))
+
+
+class SideNav(Container):
+    def __init__(self, links=[], fixed=False):
+        self.fixed = fixed
+        if fixed:
+            width = 0
+        else:
+            width = 300
+        super().__init__(links, klass="sidenav", id="PyNoHtmlSideNav", width=width)
+        if not fixed:
+            self.imports.append(Javascript("""
+function openNav() {
+  document.getElementById("PyNoHtmlSideNav").style.width = "150px";
+  document.getElementById("main").style.marginLeft = "150px";
+  document.getElementById("openclosebutton").onclick=closeNav;
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+  document.getElementById("PyNoHtmlSideNav").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+  document.getElementById("openclosebutton").onclick=openNav;
+}
+"""))
+        self.imports.append(Style("""
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+"""))
+
+
+    def make(self):
+        result = []
+        if not self.fixed:
+            result.append(Link("javascript:void(0)",
+                               "&times;",
+                               klass="closebtn",
+                               onclick="closeNav()"))
+        for link in self:
+            if isinstance(link, Element):
+                result.append(link)
+            else:
+                result.append(Link(link))
         return result
