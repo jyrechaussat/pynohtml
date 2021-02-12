@@ -2,7 +2,9 @@ from fundamentals import (
     SimpleElement,
     Container,
     ImportsLibrary,
-    HeadLink
+    HeadLink,
+    Javascript,
+    Style
 )
 
 
@@ -568,39 +570,93 @@ class Table(Container):
         super().__init__(table, tag="table", **kwargs)
 
     def make(self):
+        result = []
         if self.caption:
-            self.append(Caption(self.caption))
+            result.append(Caption(self.caption))
 
         if self.colgroup and isinstance(self.colgroup, ColGroup):
-            self.append(self.colgroup)
+            result.append(self.colgroup)
 
         if self.thead:
-            self.append(TableHeader(self.thead))
+            result.append(TableHeader(self.thead))
 
         if self.header:
-            self.append(TableLine(self.header, isHeader=True))
+            result.append(TableLine(self.header, isHeader=True))
 
         for val in self:
-            self.appendRow(val)
+            if isinstance(val, TableLine) or isinstance(val, TableBody):
+                result.append(val)
+            else:
+                result.append(TableLine(val))
 
         if self.tfoot:
-            self.append(TableFooter(self.tfoot))
-
-    def appendRow(self, values):
-        if isinstance(values, TableLine) or isinstance(values, TableBody):
-            self.append(values)
-        else:
-            self.append(TableLine(values))
+            result.append(TableFooter(self.tfoot))
+        return result
 
 
 class ClassicIcon(Icon):
     def __init__(self, value="", font="google", **kwargs):
         icon_fonts = {
-            "google":HeadLink("https://fonts.googleapis.com/icon?family=Material+Icons"),
-            "cloudfare":HeadLink("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
-            "bootstrap":HeadLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+            "google": HeadLink("https://fonts.googleapis.com/icon?family=Material+Icons"),
+            "cloudfare": HeadLink("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
+            "bootstrap": HeadLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
         }
         super().__init__(value, **kwargs)
         self.imports.append(icon_fonts[font])
 
 
+class Accordion(Container):
+    def __init__(self, elements={}, buttonClass="accordion", divClass="panel", **kwargs):
+        self.elements = elements
+        self.buttonClass = buttonClass
+        self.divClass = divClass
+        super().__init__(tag="div", **kwargs)
+        script = Javascript("""
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+""")
+        style = Style("""
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+""")
+        self.imports.extend([script, style])
+
+    def make(self):
+        result = []
+        for title, content in self.elements.items():
+            result.append(Button(title, klass=self.buttonClass))
+            result.append(Container(content, klass=self.divClass))
+        return result
