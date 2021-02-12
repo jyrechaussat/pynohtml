@@ -1,4 +1,4 @@
-from root import (
+from fundamentals import (
     SimpleElement,
     Container,
     ImportsLibrary,
@@ -36,9 +36,11 @@ class HtmlMaker(Container):
         super().__init__(tag="html", lang=lang)
 
     def make(self):
-        return [DocType(),
+        result =  [DocType(),
+                Meta(charset="utf-8"),
                 Head(self.title),
                 Body(self.body)]
+        return result
 
 
 class Area(SimpleElement):
@@ -592,12 +594,13 @@ class Table(Container):
 
 
 class ClassicIcon(Icon):
-    def __init__(self, font, **kwargs):
+    def __init__(self, value="", font="google", **kwargs):
         icon_fonts = {
             "google":HeadLink("https://fonts.googleapis.com/icon?family=Material+Icons"),
             "cloudfare":HeadLink("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
             "bootstrap":HeadLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
         }
-        super().__init__(includes=icon_fonts[font], **kwargs)
+        super().__init__(value, **kwargs)
+        self.imports.append(icon_fonts[font])
 
 

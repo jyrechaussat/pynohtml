@@ -83,7 +83,7 @@ class Container(list, Element):
     def make(self):
         return self
 
-    def processElemets(self):
+    def processElements(self):
         elmts = self.make()
         result = ""
         if elmts:
@@ -99,7 +99,7 @@ class Container(list, Element):
     @property
     def html(self):
         css = self.processCss()
-        data = self.processElemets()
+        data = self.processElements()
         return f"<{self.tag}{css}>" + data + f"</{self.tag}>"
 
 

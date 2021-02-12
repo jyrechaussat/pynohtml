@@ -1,9 +1,12 @@
 import cherrypy
-from elements import *
-from root import (
+from containers import (
+    HtmlMaker,
+    List,
+    ClassicIcon
+)
+from fundamentals import (
     Container,
     Element,
-    ImportsLibrary
 )
 
 
@@ -26,10 +29,20 @@ def pynohtml(func):
 
 
 class Root(object):
-    @cherrypy.expose
+    @pynohtml
     def index(self):
+        mainContainer = Container()
         l = List([1, 2, 3, 4])
-        return l.html
+        iconCont = Container()
+        icon = ClassicIcon("cloud",
+                           font="google",
+                           klass="material-icons",
+                           label="not_interested",
+                           )
+        iconCont.append(icon)
+        mainContainer.extend([l, l, iconCont])
+
+        return mainContainer.html
 
     @pynohtml
     def other(self):
