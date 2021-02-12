@@ -2,11 +2,15 @@ import cherrypy
 from containers import (
     HtmlMaker,
     List,
-    ClassicIcon
+    Table,
+    ClassicIcon,
+    Accordion,
+    Paragraph
 )
 from fundamentals import (
     Container,
     Element,
+    ImportsLibrary
 )
 
 
@@ -14,6 +18,7 @@ from fundamentals import (
 def pynohtml(func):
     @cherrypy.expose
     def wrapper(self):
+        ImportsLibrary().clear()
         func_result = func(self)
         if isinstance(func_result, Element):
             result = func_result.html
@@ -31,17 +36,20 @@ def pynohtml(func):
 class Root(object):
     @pynohtml
     def index(self):
-        mainContainer = Container()
-        l = List([1, 2, 3, 4])
-        iconCont = Container()
+        li = List([1, 2, 3, 4])
         icon = ClassicIcon("cloud",
                            font="google",
                            klass="material-icons",
                            label="not_interested",
                            )
-        iconCont.append(icon)
-        mainContainer.extend([l, l, iconCont])
-
+        tab = Table([[1, 2, 3], [1, 2, 3], [1, 2, icon]],
+                    header=["A", "B", "C"],
+                    tfoout=["a", "b", "c"])
+        acc = Accordion({"Section 1": Paragraph("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
+                        "Section 2": Paragraph("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
+                        "Section 3": Paragraph("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
+                        })
+        mainContainer = Container([li, tab, acc])
         return mainContainer.html
 
     @pynohtml
@@ -49,7 +57,6 @@ class Root(object):
         l = List([1, 2, 3, 4])
         return l
 
+
 if __name__ == '__main__':
     cherrypy.quickstart(Root(), '/')
-    # r = Root()
-    # print(r.other())
