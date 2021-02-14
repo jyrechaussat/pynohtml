@@ -1,4 +1,4 @@
-from fundamentals import (
+from pynohtml.fundamentals import (
     Element,
     Container
 )
