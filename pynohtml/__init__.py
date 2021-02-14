@@ -1,4 +1,4 @@
-from elements.containers import (
+from pynohtml.elements.containers import (
     Head,
     Body,
     HtmlMaker,
@@ -100,7 +100,7 @@ from elements.containers import (
     TopNav,
     SideNav,
 )
-from elements.inputs import (
+from pynohtml.elements.inputs import (
     Input,
     InputButton,
     Submit,

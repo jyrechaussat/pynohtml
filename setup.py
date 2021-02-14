@@ -1,11 +1,6 @@
 import setuptools
 import unittest
 
-def pynohtml_test_suite():
-    test_loader = unittest.TestLoader()
-    test_suite = test_loader.discover('pynohtml.tests', pattern='test_*.py')
-    return test_suite
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -25,6 +20,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    test_suite="setup.pynohtml_test_suite",    
     include_package_data=True,
 )

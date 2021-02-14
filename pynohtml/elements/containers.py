@@ -469,7 +469,7 @@ class ListElement(Container):
 
 
 class List(Container):
-    def __init__(self, values, ordered=False, **kwargs):
+    def __init__(self, values=[], ordered=False, **kwargs):
         if ordered:
             tag = "ol"
         else:

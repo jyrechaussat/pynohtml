@@ -1,4 +1,7 @@
-from elements import *
+from pynohtml import (
+    Area,
+    List
+)
 import unittest
 
 

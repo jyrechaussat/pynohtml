@@ -1,8 +1,8 @@
 import cherrypy
-from containers import (
+from pynohtml import (
     HtmlMaker,
 )
-from fundamentals import (
+from pynohtml.fundamentals import (
     Element,
     ImportsLibrary
 )
