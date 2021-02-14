@@ -13,3 +13,7 @@ build:
 .PHONY:install
 install: clean build
 	pip install --upgrade --force-reinstall dist/*
+
+.PHONY:test
+test: clean
+	python setup.py test
