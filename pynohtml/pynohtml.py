@@ -1,12 +1,16 @@
-import inspect
 import functools
 from copy import copy
 import cherrypy
 from pynohtml import (
     HtmlMaker,
+    SpanText,
+    TopNav,
+    SideNav,
+    Link
 )
 from pynohtml.fundamentals import (
     Element,
+    Container,
     ImportsLibrary
 )
 
@@ -21,8 +25,8 @@ def debug(text):
 class pynohtml(object):
     def __init__(self, func):
         self.__self__ = None
-
         self.__wrapped__ = func
+        self.template = func.__qualname__.split(".")[0]
         functools.update_wrapper(self, func)
 
     def __call__(self, *args, **kwargs):
@@ -39,7 +43,8 @@ class pynohtml(object):
             result = ""
         else:
             raise ValueError("Type not possible for pynohtml decorator")
-        html = HtmlMaker("hello world", result)
+        template = Pynohtml_core.running_templates[self.template]
+        html = HtmlMaker("hello world", template(result))
         return html.html
 
     def __get__(self, instance, owner):
@@ -70,22 +75,26 @@ class pynohtml(object):
 
 
 class Pynohtml_core:
+    running_templates = {}
+
     def __init__(self, title, template="", endpoints=[], **kwargs):
         templates = {}
-        self.template = templates.get(template, HtmlMaker)
+        self.template = templates.get(template, self.default_template)
+        Pynohtml_core.running_templates[f"{self.__class__.__name__}"] = self.template
         self.application_title = title
-        # print(self.default_template())
+        self.endpoints = pynohtml.endpoints(self)
 
     def default_template(self, to_include=""):
-        endpoints = pynohtml.endpoints(self)
         buttonSideNav = SpanText("&#9776;open",
                                  style="font-size:30px;cursor:pointer",
                                  id="openclosebutton",
                                  onclick="openNav()")
 
         links = [buttonSideNav, Link("/", "Home")]
-        for endpoint in endpoints:
+        for endpoint in self.endpoints:
             lo_end = endpoint.lower()
+            if lo_end == "index":
+                continue
             links.append(Link(f"/{lo_end}", lo_end.capitalize()))
 
         topnav = TopNav(links)
