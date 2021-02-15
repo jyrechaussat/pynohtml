@@ -98,8 +98,8 @@ class Container(list, Element):
 
     @property
     def html(self):
-        css = self.processCss()
         data = self.processElements()
+        css = self.processCss()
         return f"<{self.tag}{css}>" + data + f"</{self.tag}>"
 
 
