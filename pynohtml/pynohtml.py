@@ -1,3 +1,6 @@
+import inspect
+import functools
+from copy import copy
 import cherrypy
 from pynohtml import (
     HtmlMaker,
@@ -8,32 +11,26 @@ from pynohtml.fundamentals import (
 )
 
 
-# def pynohtml(func):
-#     @cherrypy.expose
-#     def wrapper(self):
-#         ImportsLibrary().clear()
-#         func_result = func(self)
-#         if isinstance(func_result, Element):
-#             result = func_result.html
-#         elif type(func_result) == str:
-#             result = func_result
-#         elif func_result is None:
-#             result = ""
-#         else:
-#             raise ValueError("Type not possible for pynohtml decorator")
-#         html = HtmlMaker("hello world", result)
-#         return html.html
-#     return wrapper
+def debug(text):
+    print("#" * 100)
+    print(str(text))
+    print("#" * 100)
 
 
-class pynohtml:
-    def __init__(self, method):
-        self._method = method
+@cherrypy.expose
+class pynohtml(object):
+    def __init__(self, func):
+        self.__self__ = None
 
-    @cherrypy.expose
-    def __call__(self, obj, *args, **kwargs):
+        self.__wrapped__ = func
+        functools.update_wrapper(self, func)
+
+    def __call__(self, *args, **kwargs):
+        if self.__self__ is not None:
+            args = (self.__self__,) + args
+
         ImportsLibrary().clear()
-        func_result = self._method(obj, *args, **kwargs)
+        func_result = self.__wrapped__(*args, **kwargs)
         if isinstance(func_result, Element):
             result = func_result.html
         elif type(func_result) == str:
@@ -45,6 +42,23 @@ class pynohtml:
         html = HtmlMaker("hello world", result)
         return html.html
 
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+
+        # create a bound copy
+        bound = copy(self)
+        bound.__self__ = instance
+
+        # update __doc__ and similar attributes
+        functools.update_wrapper(bound, self.__wrapped__)
+
+        # add the bound instance to the object's dict so that
+        # __get__ won't be called a 2nd time
+        setattr(instance, self.__wrapped__.__name__, bound)
+
+        return bound
+
     @classmethod
     def endpoints(cls, subject):
         def g():
@@ -54,26 +68,72 @@ class pynohtml:
                     yield name, method
         return [name for name, method in g()]
 
+
 class Pynohtml_core:
     def __init__(self, title, template="", endpoints=[], **kwargs):
         templates = {}
         self.template = templates.get(template, HtmlMaker)
         self.application_title = title
-        print(self.default_template())
+        # print(self.default_template())
 
     def default_template(self, to_include=""):
         endpoints = pynohtml.endpoints(self)
-        print("#" * 100)
-        print(endpoints)
-        print("#" * 100)
-        # buttonSideNav = SpanText("&#9776;open",
-        #                          style="font-size:30px;cursor:pointer",
-        #                          id="openclosebutton",
-        #                          onclick="openNav()")
-        # topnav = TopNav([buttonSideNav, Link("/", "Home"), Link("/other", "Other"), Link("/uikit", "UIKIT")])
-        # sidenav = SideNav([Link("/", "Home"), Link("/other", "Other"), Link("/uikit", "UIKIT")])
-        # mainContainer = Container([topnav, sidenav, to_indlue], id="main")
-        return ""
+        buttonSideNav = SpanText("&#9776;open",
+                                 style="font-size:30px;cursor:pointer",
+                                 id="openclosebutton",
+                                 onclick="openNav()")
+
+        links = [buttonSideNav, Link("/", "Home")]
+        for endpoint in endpoints:
+            lo_end = endpoint.lower()
+            links.append(Link(f"/{lo_end}", lo_end.capitalize()))
+
+        topnav = TopNav(links)
+        sidenav = SideNav(links)
+        mainContainer = Container([topnav, sidenav, to_include], id="main")
+        return mainContainer
 
 
-
+# class DecoWithArgs(object):
+#     #== change the constructor's parameters to fit your needs ==
+#     def __init__(self, *args):
+#         self.args = args
+#
+#         self.__wrapped__ = None
+#         self.__self__ = None
+#
+#     def __call__(self, *args, **kwargs):
+#         if self.__wrapped__ is None:
+#             return self.__wrap(*args, **kwargs)
+#         else:
+#             return self.__call_wrapped_function(*args, **kwargs)
+#
+#     def __wrap(self, func):
+#         # update __doc__ and similar attributes
+#         functools.update_wrapper(self, func)
+#
+#         return self
+#
+#     def __call_wrapped_function(self, *args, **kwargs):
+#         # if bound to an object, pass it as the first argument
+#         if self.__self__ is not None:
+#             args = (self.__self__,) + args
+#
+#         #== change the following line to make the decorator do something ==
+#         return self.__wrapped__(*args, **kwargs)
+#
+#     def __get__(self, instance, owner):
+#         if instance is None:
+#             return self
+#
+#         # create a bound copy of this object
+#         bound = copy(self)
+#         bound.__self__ = instance
+#         bound.__wrap(self.__wrapped__)
+#
+#         # add the bound decorator to the object's dict so that
+#         # __get__ won't be called a 2nd time
+#         setattr(instance, self.__wrapped__.__name__, bound)
+#         return bound
+#
+#

@@ -43,7 +43,7 @@ class PYNOHTML_demo(Pynohtml_core):
                          "Section 3": paragraph,
                          })
         mainContainer = Container([topnav, sidenav, li, tab, acc], id="main")
-        return mainContainer
+        return mainContainer.html
 
     @pynohtml
     def uikit(self):
@@ -85,12 +85,6 @@ class PYNOHTML_demo(Pynohtml_core):
         mainContainer = Container([topnav, sidenav, para], id="main")
         return mainContainer
 
-    @cherrypy.expose
-    def hello(self):
-        print("hello")
-
-    def world(self):
-        print("world")
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
@@ -118,6 +112,4 @@ if __name__ == "__main__":
 
             }}
     webapp = PYNOHTML_demo("hello world")
-    # cherrypy.quickstart(webapp, '/') #, conf)
-    print({k:v for k,v in vars(PYNOHTML_demo).items()})
-    print(type(PYNOHTML_demo.other))
+    cherrypy.quickstart(webapp, '/') #, conf)
