@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from pynohtml.fundamentals import (
     Element,
@@ -25,7 +26,9 @@ class UIKIT_Container(Container):
                 new_args[key] = value
 
         super().__init__(elements=elements, **new_args)
-        self.imports.append(Script(src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"))
+        script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "libs/js/uikit.min.js"))
+        self.imports.append(Script(src=script_path))
+        #self.imports.append(Script(src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"))
         self.imports.append(HeadLink("https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css"))
 
 
