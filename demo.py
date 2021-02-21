@@ -50,12 +50,26 @@ class PYNOHTML_demo(Pynohtml_core):
                                      add_close_button=False,
                                      level="warning")
         badge = UIKit.Badge(100)
+        breadcrumb = UIKit.BreadCrumb(["hello", "world", Link("/", "Home")], disable=[0, 1])
         hcont = UIKit.HContainer([badge]*6)
+        button = UIKit.Button("UIkit button")
+        l_button = UIKit.Button("large UIkit button", color="primary", size="large")
+        spinner = UIKit.Spinner()
+        big_spinner = UIKit.Spinner(ratio=4)
+        labels = [UIKit.Label(f"label_{colr}", color=colr) for colr in ["", "danger", "warning", "success"]]
         mainContainer = Container([card,
                                    Uacc,
                                    alert,
                                    no_close_alert,
                                    hcont,
+                                   breadcrumb,
+                                   button, l_button,
+                                   Container([spinner, big_spinner]),
+                                   UIKit.CountDown("2021-12-04T22:00:00+00:00"),
+                                   UIKit.Icon("cog"),
+                                   UIKit.Icon("git-branch", ratio=5),
+                                   UIKit.IconLink("home", "/", ratio="3"),
+                                   *labels,
                                    ], id="main")
         return mainContainer
 
@@ -91,5 +105,5 @@ if __name__ == "__main__":
                     'server.socket_port': port,
 
             }}
-    webapp = PYNOHTML_demo("hello world")
-    cherrypy.quickstart(webapp, '/') #, conf)
+    webapp = PYNOHTML_demo("hello world", static_js="./static/js/", static_css="./static/css")
+    #cherrypy.quickstart(webapp, '/') #, conf)
